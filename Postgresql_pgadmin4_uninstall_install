@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Uninstall PostgreSQL
+sudo apt-get purge -y postgresql*
+sudo rm -rf /etc/postgresql/
+sudo rm -rf /etc/postgresql-common/
+sudo rm -rf /var/lib/postgresql/
+sudo userdel -r postgres
+sudo groupdel postgres
+
+# Uninstall pgAdmin4
+sudo apt-get purge -y pgadmin4*
+
+# Install PostgreSQL and pgAdmin4
+sudo apt-get update
+sudo apt-get install -y postgresql pgadmin4
+
+# Create a new role with a password
+sudo -u postgres createuser --superuser --createdb --createrole --login --pwprompt your_username
+
+# Start PostgreSQL
+sudo systemctl start postgresql
+
+# Start pgAdmin4
+sudo /usr/pgadmin4/bin/setup-web.sh
+sudo /usr/pgadmin4/bin/pgAdmin4.sh
